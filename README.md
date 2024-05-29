@@ -8,7 +8,7 @@
 Default [Jest](https://jestjs.io/) preset for Shopware 6 administration development.
 
 ```bash
-npm install jest @shopware-ag/jest-preset-sw6-admin @babel/preset-env @babel/plugin-proposal-class-properties --save-dev
+npm install jest @haokeyingxiao/jest-preset-sw6-admin @babel/preset-env @babel/plugin-proposal-class-properties --save-dev
 ```
 
 ## Setup
@@ -28,7 +28,7 @@ Next up, create a file `jest.config.js` which should contain the following conte
 
 ```js
 module.exports = {
-    preset: '@shopware-ag/jest-preset-sw6-admin',
+    preset: '@haokeyingxiao/jest-preset-sw6-admin',
     globals: {
         adminPath: '<file-path-to-sw6-administration>', // required, e.g. /www/sw6/platform/src/Administration/Resources/app/administration
     }
