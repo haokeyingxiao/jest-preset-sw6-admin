@@ -5,19 +5,27 @@ if (!srcPath) {
     throw new Error('"globals.adminPath" is not defined. A file path to a Shopware 6 administration is required');
 }
 
+const disableJestCompatMode = process.env.DISABLE_JEST_COMPAT_MODE === 'true' ?? false;
+
 global.window._features_ = {};
-global.console.warn = () => {};
+
+if (!disableJestCompatMode) {
+    global.console.warn = () => {};
+}
 
 const Shopware = require(resolve(join(srcPath, `src/core/shopware.ts`))).ShopwareInstance;
 
-
 // Take all keys out of Shopware.compatConfig but set them to true
-const compatConfig = Object.fromEntries(Object.keys(Shopware.compatConfig).map(key => [key, true]));
+const compatConfig = Object.fromEntries(Object.keys(Shopware.compatConfig).map(key => [key, !disableJestCompatMode]));
 const envBefore = process.env.NODE_ENV;
 
 // src/Administration/Resources/app/administration/node_modules/@vue/compat/index.js loads different files based on NODE_ENV
 process.env.NODE_ENV = 'production';
-const configureCompat = require(resolve(join(srcPath, 'node_modules/@vue/compat/index.js'))).configureCompat;
+const configureCompat = require(resolve(join(srcPath, 'node_modules/@vue/compat/dist/vue.cjs.js'))).configureCompat;
+
+// Enable Pinia support
+const vueUse = require(resolve(join(srcPath, 'node_modules/@vue/compat/dist/vue.cjs.js'))).use;
+vueUse(Shopware.Store._rootState);
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 configureCompat(compatConfig);

@@ -1,6 +1,6 @@
 {
   "name": "@haokeyingxiao/jest-preset-sw6-admin",
-  "version": "4.2.5",
+  "version": "4.3.2",
   "description": "Jest Test preset for HaoKe 6 administration unit tests",
   "main": "jest-preset.js",
   "keywords": [
@@ -13,10 +13,6 @@
   ],
   "author": "klarstil",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shopware/jest-preset-sw6-admin.git"
-  },
   "bugs": {
     "url": "https://github.com/haokeyingxiao/jest-preset-sw6-admin/issues"
   },
