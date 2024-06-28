@@ -13,6 +13,10 @@ if (!disableJestCompatMode) {
     global.console.warn = () => {};
 }
 
+if (disableJestCompatMode) {
+    window._features_.DISABLE_VUE_COMPAT = true;
+}
+
 const Shopware = require(resolve(join(srcPath, `src/core/shopware.ts`))).ShopwareInstance;
 
 // Take all keys out of Shopware.compatConfig but set them to true
@@ -23,12 +27,13 @@ const envBefore = process.env.NODE_ENV;
 process.env.NODE_ENV = 'production';
 const configureCompat = require(resolve(join(srcPath, 'node_modules/@vue/compat/dist/vue.cjs.js'))).configureCompat;
 
-// Enable Pinia support
-const vueUse = require(resolve(join(srcPath, 'node_modules/@vue/compat/dist/vue.cjs.js'))).use;
-vueUse(Shopware.Store._rootState);
-
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 configureCompat(compatConfig);
+
+// Enable Pinia Support
+const { createApp } = require(resolve(join(srcPath, 'node_modules/@vue/compat/dist/vue.cjs.js')));
+const app = createApp();
+app.use(Shopware.Store._rootState)
 
 process.env.NODE_ENV = envBefore;
 
